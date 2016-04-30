@@ -1,28 +1,28 @@
 function [classactivation, clusteroutput, distances] = FORWARDPASS(...
-			stimuli, clusters, featuretuning, association, attentionfocus, clustercomp)
+            stimuli, clusters, featuretuning, association, attentionfocus, clustercomp)
 %--------------------------------------------------------------------------
 % This script runs a forward pass in SUSTAIN and returns information
 % about network performance.
 % 
 % -------------------------------------
-% --INPUT ARGUMENTS			DESCRIPTION
-%	stimuli					items to be passed through the model
-%	clusters				coordinates of each stored cluster
-%	featuretuning			feature-wise tuning strengths
-% 	association				cluster -> category weights
-%	attentionfocus			attention focus parameter
-% 	clustercomp				cluster competition parameter
+% --INPUT ARGUMENTS      DESCRIPTION
+%   stimuli              items to be passed through the model
+%   clusters             coordinates of each stored cluster
+%   featuretuning        feature-wise tuning strengths
+%   association          cluster -> category weights
+%   attentionfocus       attention focus parameter
+%   clustercomp          cluster competition parameter
 
 % -------------------------------------
-% --OUTPUT ARGUMENTS		DESCRIPTION
-%	classactivation			category output activations
-%	clusteroutput			cluster activations [after competition]
-%	distances				3D matrix of differences between stimuli and clusters
+% --OUTPUT ARGUMENTS     DESCRIPTION
+%   classactivation      category output activations
+%   clusteroutput        cluster activations [after competition]
+%   distances            3D matrix of stimuli -> cluster differences
 %--------------------------------------------------------------------------
 
 % define constants
-numstimuli		= size(stimuli,1);
-numcategories	= size(association,2);
+numstimuli       = size(stimuli,1);
+numcategories    = size(association,2);
 
 % multiply feature tunings against attentional focus param
 tuning2focus = featuretuning.^attentionfocus;
@@ -46,9 +46,9 @@ clusteroutput = bsxfun(@rdivide,clusteroutput,sum(clusteroutput,2)) .* clusterac
 % compute class activation [[vectorize this somehow]]
 classactivation = zeros(numstimuli,numcategories);
 for S = 1:numstimuli
-	winningoutput = clusteroutput(S,winners(S));
-	winningassoc = association(winners(S),:);
-	classactivation(S,:) = winningoutput * winningassoc;
+    winningoutput = clusteroutput(S,winners(S));
+    winningassoc = association(winners(S),:);
+    classactivation(S,:) = winningoutput * winningassoc;
 end
 
 end
