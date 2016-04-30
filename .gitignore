@@ -18,5 +18,5 @@
 slprj/
 
 .DS_Store
-.html
-alcove.mat
+*.html
+*.pdf
