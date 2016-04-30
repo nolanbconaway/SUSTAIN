@@ -5,10 +5,10 @@ function result = SUSTAIN(model)
 % the model, and must include:
 % 
 %      exemplars: coordinates for the training stimuli
-%       numblocks: number of times to iterate over the training set
-%       numinitials: number of random initializations
+%      numblocks: number of times to iterate over the training set
+%      numinitials: number of random initializations
 %      assignments: integer class assignment for each exemplar
-%       params: [attn, comp, decision, lrate]
+%      params: [attn, comp, decision, lrate]
 % 
 % The model struct may contain more fields (such as test items), but those
 % are the necessary fields.
