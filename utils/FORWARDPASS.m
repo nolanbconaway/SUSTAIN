@@ -41,7 +41,7 @@ clusteroutput = clusteractivation.^clustercomp;
 clusteroutput = bsxfun(@rdivide,clusteroutput,sum(clusteroutput,2)) .* clusteractivation;
 
 % determine winning cluster for each stimulus
-[~,winners] = max(clusteroutput,[],2);
+[~,winners] = max(clusteractivation,[],2);
 
 % compute class activation [[vectorize this somehow]]
 classactivation = zeros(numstimuli,numcategories);

@@ -23,9 +23,7 @@ Simulations are run by executing the *start.m* script. All simulations begin by 
 | `assignments`  | class assignment for each exemplar        | Integer vector (>0)             |
 | `params`       | [attn, comp, decision, lrate]             | Float vector (0 - Inf)          |
 
-For almost all situations, inputs should be scaled to [-1 +1]. The feature tunings (`lambda` in *Psych Review*) are initalized at `1*numexemplars`, which is based on the [code](https://github.com/NYUCCL/sustain_python) posted by Todd Gureckis.
-
-SUSTAIN.m will train the network and return a result struct. As-is, 'result' contains only training accuracy (averaged across inits) at each training block. Additional measures, such as test phase classification, can be added.
+For almost all situations, inputs should be scaled to [-1 +1]. SUSTAIN.m will train the network and return a result struct. As-is, 'result' contains only training accuracy (averaged across inits) at each training block. Additional measures, such as test phase classification, can be added.
 
 Written by [Nolan Conaway](http://bingweb.binghamton.edu/~nconawa1/).
 Updated April 30, 2016

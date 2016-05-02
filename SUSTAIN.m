@@ -44,8 +44,8 @@ for modelnum = 1:numinits
     % get random presentation order
     presentationorder = shuffletrials(numexemplars,numblocks);
     
-    % initialize feature tunings
-    featuretuning = ones(1, numfeatures) * numexemplars;
+    % initialize feature tunings to max difference across the space.
+    featuretuning = ones(1, numfeatures) * 8;
     
     % set up first-trial cluster and association
     clusters    = exemplars(presentationorder(1),:);
