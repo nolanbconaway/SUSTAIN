@@ -45,7 +45,7 @@ for modelnum = 1:numinits
     presentationorder = shuffletrials(numexemplars,numblocks);
     
     % initialize feature tunings to max difference across the space.
-    featuretuning = ones(1, numfeatures) * 8;
+    featuretuning = ones(1, numfeatures) * 2;
     
     % set up first-trial cluster and association
     clusters    = exemplars(presentationorder(1),:);
@@ -60,7 +60,7 @@ for modelnum = 1:numinits
         
         % pass activations through the network
         %--------------------------------------------------------------
-        [classactivation, clusteroutput, distances] = FORWARDPASS(...
+        [classactivation, clusteroutput, distances, winners] = FORWARDPASS(...
             trialexemplar, clusters, featuretuning, association,...
             attentionfocus, clustercomp);
         
@@ -68,7 +68,7 @@ for modelnum = 1:numinits
         probabilities = RESPONSERULE(classactivation, decisionconsis);
         training(trialnum,modelnum) = probabilities(correctclass);
         
-        
+		
         % recruit a cluster if the response was incorrect
         %--------------------------------------------------------------
         if classactivation(correctclass) ~= max(classactivation)
@@ -76,25 +76,25 @@ for modelnum = 1:numinits
             association  = cat(1 ,association, zeros(1,numcategories));
             
             % recalculate forward pass
-            [classactivation, clusteroutput, distances] = FORWARDPASS(...
-                trialexemplar, clusters, featuretuning, association, ...
-                attentionfocus, clustercomp);
+            [classactivation, clusteroutput, distances, winners] = FORWARDPASS(...
+				trialexemplar, clusters, featuretuning, association,...
+				attentionfocus, clustercomp);
         end
         
         % update cluster center, association, and feature tunings
         %-------------------------------------------------------------
         [clusters, association, featuretuning] = UPDATE(...
             trialtarget, trialexemplar, clusters, featuretuning, association,...
-            classactivation, clusteroutput, distances, learningrate);
+            classactivation, clusteroutput, distances, winners, learningrate);
         
     end
     
 %     % SAMPLE TEST PHASE CODE 
 %     TEST_OUT = FORWARDPASS(exemplars, clusters, featuretuning, association,...
-%             attentionfocus, clustercomp);
+%         attentionfocus, clustercomp);
 %     TEST_PS = RESPONSERULE(TEST_OUT, decisionconsis);
 %     % ----------------------
-    
+
 end
 
 % aggregate accuracy across inits and within blocks

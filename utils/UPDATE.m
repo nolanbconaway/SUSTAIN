@@ -1,6 +1,6 @@
 function [clusters, association, featuretuning] = UPDATE(...
             target, stimulus, clusters, featuretuning, association,...
-            classactivation, clusteroutput, distances, learningrate)
+            classactivation, clusteroutput, distances, winner, learningrate)
 %--------------------------------------------------------------------------
 % This script updates the cluster centers, association weights, and 
 % feature tunings of a SUSTAIN network, given the results of a prior call
@@ -19,11 +19,11 @@ function [clusters, association, featuretuning] = UPDATE(...
 %   classactivation         category activations from FORWARDPASS.m
 %   clusteroutput           cluster activations from FORWARDPASS.m
 %   distances               3D matrix of differences from FORWARDPASS.m
+%   winner                  index of the winning cluster from FORWARDPASS.m
 %   learningrate            learning rate parameter
 %--------------------------------------------------------------------------
 
 % get info about winning cluster
-[~,winner]      = max(clusteroutput,[],2);
 winnercenter    = clusters(winner,:);
 winnerout       = clusteroutput(winner);
 winnerdiffs     = distances(:,:,winner);
@@ -40,8 +40,8 @@ deltaassoc = (target - classactivation) * winnerout;
 deltatuning = exp(-featuretuning.*winnerdiffs) .* (1-featuretuning.*winnerdiffs);
 
 % execute updates
-clusters(winner,:)       = clusters(winner,:) +  learningrate * deltapos;
-association(winner,:)    = association(winner,:) + learningrate * deltaassoc;
-featuretuning            = featuretuning + learningrate * deltatuning;
+clusters(winner,:)     = clusters(winner,:) +  learningrate * deltapos;
+association(winner,:)  = association(winner,:) + learningrate * deltaassoc;
+featuretuning          = featuretuning + learningrate * deltatuning;
 
 end

@@ -26,5 +26,5 @@ Simulations are run by executing the *start.m* script. All simulations begin by 
 For almost all situations, inputs should be scaled to [-1 +1]. SUSTAIN.m will train the network and return a result struct. As-is, 'result' contains only training accuracy (averaged across inits) at each training block. Additional measures, such as test phase classification, can be added.
 
 Written by [Nolan Conaway](http://bingweb.binghamton.edu/~nconawa1/).
-Updated April 30, 2016
+Updated May 2, 2016
 

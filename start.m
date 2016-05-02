@@ -8,7 +8,7 @@ load shj
 % set up model
 model = struct;
   model.exemplars	= stimuli;	% training stimuli
-  model.numblocks	= 32;	% number of iterations over the exemplars
+  model.numblocks	= 16;	% number of iterations over the exemplars
   model.numinits	= 1;	% number of random initializations
   model.params		= [9.01, 1.25, 16.9, 0.09];	% [attn, comp, decision, lrate];
 	

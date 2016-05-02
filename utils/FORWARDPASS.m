@@ -1,4 +1,4 @@
-function [classactivation, clusteroutput, distances] = FORWARDPASS(...
+function [classactivation, clusteroutput, distances, winners] = FORWARDPASS(...
             stimuli, clusters, featuretuning, association, attentionfocus, clustercomp)
 %--------------------------------------------------------------------------
 % This script runs a forward pass in SUSTAIN and returns information
@@ -18,6 +18,7 @@ function [classactivation, clusteroutput, distances] = FORWARDPASS(...
 %   classactivation      category output activations
 %   clusteroutput        cluster activations [after competition]
 %   distances            3D matrix of stimuli -> cluster differences
+%   winners              index of winning cluster for each stimulus
 %--------------------------------------------------------------------------
 
 % define constants
@@ -40,15 +41,19 @@ clusteractivation = permute(clusteractivation,[1,3,2]) / sumtuning2focus;
 clusteroutput = clusteractivation.^clustercomp;
 clusteroutput = bsxfun(@rdivide,clusteroutput,sum(clusteroutput,2)) .* clusteractivation;
 
-% determine winning cluster for each stimulus
-[~,winners] = max(clusteractivation,[],2);
-
-% compute class activation [[vectorize this somehow]]
-classactivation = zeros(numstimuli,numcategories);
+% determine winning cluster and class activation
+%	[vectorize this one day]
+winners          = zeros(numstimuli,1);
+classactivation  = zeros(numstimuli,numcategories);
 for S = 1:numstimuli
-    winningoutput = clusteroutput(S,winners(S));
-    winningassoc = association(winners(S),:);
-    classactivation(S,:) = winningoutput * winningassoc;
+	
+	% determine winning clusters
+	options = find(clusteractivation(S,:) == max(clusteractivation(S,:)));
+	winner = options(randperm(length(options),1));
+	
+	% compute class activation
+	winners(S) = winner;
+	classactivation(S,:) = clusteroutput(S,winner) * association(winner,:);
 end
 
 end
