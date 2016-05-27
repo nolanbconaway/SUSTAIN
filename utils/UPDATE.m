@@ -43,5 +43,5 @@ deltatuning = exp(-featuretuning.*winnerdiffs) .* (1-featuretuning.*winnerdiffs)
 clusters(winner,:)     = clusters(winner,:) +  learningrate * deltapos;
 association(winner,:)  = association(winner,:) + learningrate * deltaassoc;
 featuretuning          = featuretuning + learningrate * deltatuning;
-
+featuretuning(featuretuning<0) = 0; % feature tuning must be non negative
 end
